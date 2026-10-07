@@ -1,0 +1,35 @@
+# 商业字体 —— 授权归字体厂商，本仓库不分发
+*.ttf
+*.woff
+*.woff2
+*.otf
+
+# 上游资源 —— 请自行从上游仓库获取
+lunar.js
+snapdom.js
+calendar-art.js
+pdf-lib.min.js
+fontkit.umd.min.js
+render.worker.js
+lite-datepicker.js
+remixicon.css
+calendar-templates.json
+couplets.json
+duizi.json
+jiemeng.json
+holidays.json
+index.html
+solar-term-designer.html
+debug-calendar-jump.js
+tpl/
+
+# 构建产物
+dist/
+standalone/
+_month_assets/
+__pycache__/
+*.pyc
+
+# 系统
+.DS_Store
+Thumbs.db

@@ -1,0 +1,176 @@
+<div class="calendar-card" id="tpl">
+      <div class="grid-header">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 96" width="100%" height="100%"
+          preserveAspectRatio="none" style="overflow: visible; background: #fdfcf7">
+
+          <rect class="header-bg" x="-4" y="-4" width="968" height="104" fill="#fdfcf7" stroke="none" />
+          <g id="t-header-graphics" fill="none" stroke="#1B5E20">
+
+            <path d="M 380 10 L 2 10 L 2 86 L 380 86" fill="none" stroke="#1B5E20" stroke-width="2.2"
+              stroke-linecap="square" />
+            <path d="M 389 1 L 571 1 L 580 10 L 580 86 L 571 95 L 389 95 L 380 86 L 380 10 Z" fill="none"
+              stroke="#1B5E20" stroke-width="2.2" />
+            <path d="M 580 10 L 958 10 L 958 86 L 580 86" fill="none" stroke="#1B5E20" stroke-width="2.2"
+              stroke-linecap="square" />
+            <g id="t-corners"></g>
+
+            <text x="200" y="49" id="t-en" fill="#1B5E20" stroke="none" font-weight="900" text-anchor="middle"
+              dominant-baseline="central" font-family="'Playfair Display','Cinzel',serif" font-size="60"
+              letter-spacing="1.5">
+              SEPTEMBER
+            </text>
+            <text x="480" y="49" id="t-year" fill="#1B5E20" stroke="none" font-weight="900" text-anchor="middle"
+              dominant-baseline="central" font-family="'Playfair Display','Georgia',serif" font-size="68"
+              font-style="italic" letter-spacing="-1">
+              2026
+            </text>
+            <text x="760" y="49" id="t-cn" fill="#1B5E20" stroke="none" font-weight="900" text-anchor="middle"
+              dominant-baseline="central" font-family="'Playfair Display','Cinzel',serif" font-size="60"
+              letter-spacing="1.5">
+              九月小
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="grid-couplet-left proverb" id="t-cpl-l">好言一句三冬暖</div>
+      <div class="grid-main-date">
+        <div class="big-date" id="t-day">4</div>
+      </div>
+      <div class="grid-couplet-right proverb" id="t-cpl-r">话不投机六月寒</div>
+
+      <div class="grid-lunar-date table-cell">
+        <div class="top" id="t-lun-top">农历丙午年七月小</div>
+        <div class="bot bg-primary" id="t-lun-bot"><span class="ink">廿三日</span></div>
+      </div>
+      <div class="grid-solar-term table-cell">
+        <div class="top" id="t-term-top">廿六白露</div>
+        <div class="bot" id="t-term-bot">9月7日</div>
+      </div>
+      <div class="grid-weekday table-cell">
+        <div class="top" id="t-wk-en">FRIDAY</div>
+        <div class="bot bg-primary" id="t-wk-cn"><span class="ink">星期五</span></div>
+      </div>
+
+      <div class="grid-suitable table-cell">
+        <div class="oval-icon bg-primary text-white"><span class="ink">宜</span></div>
+        <div class="yiji-items" id="t-yi"><span class="yi-0">祈福</span><span class="yi-1">入学</span><span
+            class="yi-2"></span><span class="yi-3"></span><span class="yi-4"></span><span class="yi-5"></span></div>
+      </div>
+      <div class="grid-time-fortune table-cell">
+        <div class="steel-row">
+          <div class="char"><span class="shichen-label">时辰</span>子丑寅卯辰巳午未申酉戌亥</div>
+        </div>
+        <div class="steel-row">
+          <div class="char" id="t-luck"><span class="shichen-label">吉凶</span><span id="t-luck-row">中吉吉凶中吉吉吉中凶凶凶</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid-avoid table-cell">
+        <div class="oval-icon bg-primary text-white"><span class="ink">忌</span></div>
+        <div class="yiji-items" id="t-ji"><span class="ji-0">出行</span><span class="ji-1">伐木</span><span
+            class="ji-2"></span><span class="ji-3"></span></div>
+      </div>
+      <div class="grid-nine-stars table-cell" id="t-nine">九星四绿</div>
+      <div class="grid-conflict table-cell">
+        <div class="snake-icon" id="t-cf-icon"><span class="sx-day" id="t-cf-day">蛇</span><span class="sx-clash"
+            id="t-cf-clash">猪</span></div>
+        <div class="violet-text" id="t-cf-text">蛇日冲猪生年32岁</div>
+      </div>
+      <div class="grid-year-month table-cell" id="t-ym">马年猴月</div>
+
+      <div class="grid-auspicious-gods table-cell">
+        <div id="t-gods">
+          <div class="header bg-primary text-white item"><span class="ink">吉神方位</span></div>
+          <div class="item"><span class="god-label">喜神</span><span class="god-dir" id="t-god-xi">西南</span></div>
+          <div class="item"><span class="god-label">财神</span><span class="god-dir" id="t-god-cai">正东</span></div>
+          <div class="item"><span class="god-label">贵神</span><span class="god-dir" id="t-god-yang">东北</span></div>
+          <div class="item"><span class="god-label">吉门</span><span class="god-dir" id="t-god-gate">--</span></div>
+        </div>
+      </div>
+      <div class="grid-feixing table-cell">
+        <svg xmlns="http://www.w3.org/2000/svg" id="t-feixing"></svg>
+      </div>
+      <div class="grid-five-elements table-cell">
+        <div class="row">
+          <div class="label">天干</div>
+          <div class="val1" id="t-gan">辛</div>
+          <div class="val2" id="t-gan-el">属金</div>
+        </div>
+        <div class="row">
+          <div class="label">地支</div>
+          <div class="val1" id="t-zhi">巳</div>
+          <div class="val2" id="t-zhi-el">属火</div>
+        </div>
+        <div class="row">
+          <div class="label">纳音</div>
+          <div class="val1" id="t-nayin">金</div>
+          <div class="val2" id="t-nayin-el">属金</div>
+        </div>
+        <div class="row">
+          <div class="label">廿八宿</div>
+          <div class="val1" id="t-xiu">娄</div>
+          <div class="val2">宿</div>
+        </div>
+        <div class="row">
+          <div class="label">十二神</div>
+          <div class="val1" id="t-zx">收</div>
+          <div class="val2">日</div>
+        </div>
+      </div>
+      <div class="grid-bazi table-cell">
+        <div class="bazi-box">
+          <div class="bazi-header bg-primary text-white"><span class="ink">八字</span></div>
+          <div class="bazi" id="t-bazi">
+            <div>丙午</div>
+            <div>丙申</div>
+            <div>辛巳</div>
+            <div>戊子</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-fetus-spirit table-cell">
+        <div class="bazi-box">
+          <div class="bazi-header bg-primary text-white"><span class="ink">胎神</span></div>
+          <div class="bazi" id="t-tai">
+            <div>厨灶床</div>
+            <div>外正西</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-zodiac-wrap" id="t-z-wrap">
+        <div class="grid-zodiac-1 table-cell animal-cell" id="t-z1">
+          <div class="animal-nums"><span class="n-0">--</span><span class="n-1">--</span></div>
+          <div class="animal-nums"><span class="n-2">--</span><span class="n-3">--</span></div>
+          <div class="animal-icon">牛</div>
+        </div>
+        <div class="grid-zodiac-2 table-cell animal-cell" id="t-z2">
+          <div class="animal-nums"><span class="n-0">--</span><span class="n-1">--</span></div>
+          <div class="animal-nums"><span class="n-2">--</span><span class="n-3">--</span></div>
+          <div class="animal-icon">兔</div>
+        </div>
+        <div class="grid-zodiac-3 table-cell animal-cell" id="t-z3">
+          <div class="animal-nums"><span class="n-0">--</span><span class="n-1">--</span></div>
+          <div class="animal-nums"><span class="n-2">--</span><span class="n-3">--</span></div>
+          <div class="animal-icon">龙</div>
+        </div>
+        <div class="grid-zodiac-4 table-cell animal-cell" id="t-z4">
+          <div class="animal-nums"><span class="n-0">--</span><span class="n-1">--</span></div>
+          <div class="animal-nums"><span class="n-2">--</span><span class="n-3">--</span></div>
+          <div class="animal-icon">马</div>
+        </div>
+      </div>
+
+      <div class="grid-lucky-numbers table-cell">
+        <div class="header bg-primary text-white"><span class="ink">吉数</span></div>
+        <div class="zodiac" id="t-lucky-zx">—</div>
+        <span id="t-lucky-num">—</span>
+      </div>
+      <div class="grid-footer table-cell">
+        <div id="t-dream">梦见: 未婚女子梦见暴风, 婚姻自主</div>
+        <div id="t-tide-rise">涨潮 10:20 分</div>
+        <div id="t-tide-fall">落潮 03:20 分</div>
+      </div>
+    </div>
