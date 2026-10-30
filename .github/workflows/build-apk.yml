@@ -18,17 +18,30 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Show preinstalled Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          ls -1 "$ANDROID_HOME" 2>/dev/null || true
+          ls -1 "$ANDROID_HOME/platforms" 2>/dev/null || true
+          ls -1 "$ANDROID_HOME/build-tools" 2>/dev/null || true
+
+      - name: Accept licenses & install components
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0" > /dev/null 2>&1 || true
 
       - name: Build Debug APK
         working-directory: android
-        run: gradle assembleDebug --no-daemon --stacktrace
+        run: |
+          chmod +x gradlew 2>/dev/null || true
+          if [ -f gradlew ]; then ./gradlew assembleDebug --no-daemon --stacktrace
+          else gradle assembleDebug --no-daemon --stacktrace; fi
 
       - name: Collect APK
         run: |
           mkdir -p output
-          find android/app/build/outputs/apk/debug -name "*.apk" -exec cp {} output/rili.apk \;
+          find android/app/build/outputs/apk -name "*.apk" -exec cp {} output/rili.apk \;
           ls -lh output/
 
       - name: Upload
