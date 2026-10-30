@@ -4614,20 +4614,7 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
           `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="background:#fdfcf7;">` +
           `<rect width="100%" height="100%" fill="#fdfcf7"/>` +
           `<foreignObject width="${w}" height="${h}"><div xmlns="http://www.w3.org/1999/xhtml" lang="${document.documentElement.lang || "zh-CN"}" style="width:${w}px;height:${h}px;background:#fdfcf7;">` +
-          `<style>${collectCSS()}
-  #backToMonth {
-    position: fixed; left: 50%; transform: translateX(-50%);
-    bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 999;
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 10px 20px; border: 1px solid #E8E8E8; border-radius: 999px;
-    background: rgba(255,255,255,.94); backdrop-filter: blur(8px);
-    color: #333; font-size: 14px; font-family: inherit; text-decoration: none;
-    box-shadow: 0 3px 14px rgba(0,0,0,.13); cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-  #backToMonth:active { background: #F2F2F2; }
-  #backToMonth b { color: #E22B37; font-weight: 700; }
-</style>${new XMLSerializer().serializeToString(card)}</div></foreignObject></svg>`;
+          `<style>${collectCSS()}</style>${new XMLSerializer().serializeToString(card)}</div></foreignObject></svg>`;
         const url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
         await new Promise((resolve) => {
           const img = new Image();
