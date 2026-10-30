@@ -1008,7 +1008,7 @@
     var more = el("button", "more-link");
     more.appendChild(document.createTextNode("查看完整黄历（八字 · 星宿 · 胎神）"));
     more.appendChild(el("i", null, "›"));
-    more.onclick = function () { location.href = "./day"; };
+    more.onclick = function () { location.href = "./day.html"; };
     frag.appendChild(more);
 
     var box = el("div");
@@ -1083,7 +1083,7 @@
 
   // ---------- 事件 ----------
   $("btnToday").onclick = function () { render(TY, TM); };
-  $("btnList").onclick = function () { location.href = "./day"; };
+  $("btnList").onclick = function () { location.href = "./day.html"; };
   function stepMonth(n) {
     var nm = cur.m + n, ny = cur.y;
     if (nm < 1) { nm = 12; ny--; }
