@@ -22,8 +22,79 @@ import android.widget.LinearLayout;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.util.TypedValue;
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.webkit.JavascriptInterface;
+import android.widget.Toast;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 public class MainActivity extends Activity {
+
+
+    /** 给网页调用的桥：把 canvas 导出的 base64 图片存进相册 */
+    public class ImageBridge {
+
+        @JavascriptInterface
+        public boolean saveBase64(String base64, String filename) {
+            try {
+                if (base64 == null) return false;
+                int comma = base64.indexOf(",");
+                if (comma >= 0) base64 = base64.substring(comma + 1);
+                byte[] data = Base64.decode(base64, Base64.DEFAULT);
+
+                String name = (filename == null || filename.length() == 0)
+                        ? "老黄历_" + System.currentTimeMillis() + ".png" : filename;
+                if (!name.toLowerCase().endsWith(".png")) name = name + ".png";
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ContentValues cv = new ContentValues();
+                    cv.put(MediaStore.Images.Media.DISPLAY_NAME, name);
+                    cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+                    cv.put(MediaStore.Images.Media.RELATIVE_PATH,
+                            Environment.DIRECTORY_PICTURES + "/老黄历");
+                    cv.put(MediaStore.Images.Media.IS_PENDING, 1);
+                    Uri uri = getContentResolver().insert(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+                    if (uri == null) return false;
+                    try (OutputStream os = getContentResolver().openOutputStream(uri)) {
+                        if (os == null) return false;
+                        os.write(data);
+                    }
+                    cv.clear();
+                    cv.put(MediaStore.Images.Media.IS_PENDING, 0);
+                    getContentResolver().update(uri, cv, null, null);
+                } else {
+                    File dir = new File(Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES), "老黄历");
+                    if (!dir.exists() && !dir.mkdirs()) return false;
+                    File f = new File(dir, name);
+                    try (FileOutputStream fos = new FileOutputStream(f)) {
+                        fos.write(data);
+                    }
+                    android.media.MediaScannerConnection.scanFile(
+                            MainActivity.this, new String[]{f.getAbsolutePath()},
+                            new String[]{"image/png"}, null);
+                }
+
+                runOnUiThread(() -> Toast.makeText(MainActivity.this,
+                        "已保存到相册：老黄历/" + name, Toast.LENGTH_LONG).show());
+                return true;
+            } catch (Throwable t) {
+                showToastAsync("保存失败：" + t.getClass().getSimpleName());
+                return false;
+            }
+        }
+    }
+
+    private void showToastAsync(final String msg) {
+        runOnUiThread(() -> Toast.makeText(this, msg, Toast.LENGTH_SHORT).show());
+    }
 
     private static final String HOME_URL = "file:///android_asset/index.html";
     private WebView webView;
@@ -104,6 +175,7 @@ public class MainActivity extends Activity {
 
         WebSettings s = webView.getSettings();
         s.setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new ImageBridge(), "AndroidBridge");
         s.setDomStorageEnabled(true);
         s.setCacheMode(WebSettings.LOAD_DEFAULT);
         s.setLoadWithOverviewMode(true);

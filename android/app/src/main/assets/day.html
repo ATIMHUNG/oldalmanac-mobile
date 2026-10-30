@@ -4679,6 +4679,24 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
               resolve(null);
               return;
             }
+            // App 环境：走原生接口存相册，避免 WebView 把 blob 当链接打开
+            // （WebView 不支持 a.download，点击会跳到一张没有返回按钮的图片页）
+            if (window.AndroidBridge && typeof window.AndroidBridge.saveBase64 === "function") {
+              const reader = new FileReader();
+              reader.onload = () => {
+                try {
+                  const ok = window.AndroidBridge.saveBase64(
+                    String(reader.result), filename);
+                  resolve(ok ? filename : null);
+                } catch (e) {
+                  resolve(null);
+                }
+              };
+              reader.onerror = () => resolve(null);
+              reader.readAsDataURL(blob);
+              return;
+            }
+
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
