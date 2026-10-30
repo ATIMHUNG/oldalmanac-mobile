@@ -1687,15 +1687,6 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
             </svg>
           </button>
         </div>
-        <div class="tab-slot">
-          <button type="button" class="tab-btn" id="btn-export" aria-haspopup="dialog" aria-expanded="false"
-            aria-controls="export-panel" aria-label="导出日历" title="导出日历（E 键）">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true">
-              <path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" />
-            </svg>
-          </button>
-        </div>
       </div>
     </div>
 
@@ -4889,7 +4880,10 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
 
       // 面板锚定当前工具按钮；不依赖日历页的缩放比例或屏幕中心。
       function positionDock(panel, button) {
-        const rect = button.getBoundingClientRect();
+        // 按钮被移除时（如导出入口已下线）没有锚点，退回右上角定位
+        const rect = button
+          ? button.getBoundingClientRect()
+          : { left: document.documentElement.clientWidth - 56, top: 64, bottom: 96 };
         const vw = document.documentElement.clientWidth;
         const vh = window.innerHeight;
         let edge = Math.min(vw - 12, rect.left - 10);
@@ -4911,7 +4905,7 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
         panel.inert = false;
         void panel.offsetWidth; // 先应用收起尺寸，再触发两段式过渡。
         panel.classList.add("is-open");
-        button.setAttribute("aria-expanded", "true");
+        if (button) button.setAttribute("aria-expanded", "true");
         dockTimers.set(panel, setTimeout(() => {
           if (panel.classList.contains("is-open")) {
             const target = panel.querySelector('.ldp-trigger, [data-range][aria-pressed="true"]');
@@ -4924,8 +4918,8 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
         const hadFocus = panel.contains(document.activeElement);
         panel.classList.remove("is-open");
         panel.inert = true;
-        button.setAttribute("aria-expanded", "false");
-        if (hadFocus && refocus) button.focus({ preventScroll: true });
+        if (button) button.setAttribute("aria-expanded", "false");
+        if (hadFocus && refocus && button) button.focus({ preventScroll: true });
         if (immediate || motionPreference.matches) panel.hidden = true;
         else dockTimers.set(panel, setTimeout(() => { panel.hidden = true; }, 440));
       }
@@ -4965,7 +4959,7 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
       }
       window.addEventListener("resize", () => {
         if (datePanel.classList.contains("is-open")) positionDock(datePanel, btnDate);
-        if (exportPanel.classList.contains("is-open")) positionDock(exportPanel, btnExport);
+        if (btnExport && exportPanel.classList.contains("is-open")) positionDock(exportPanel, btnExport);
         // 等菜单定位更新后再校准日期浮层位置。
         requestAnimationFrame(() => [dateWidget, exportStartWidget, exportEndWidget].forEach(widget => widget.reposition()));
       });
@@ -5123,10 +5117,12 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
       datePanel.addEventListener("click", (event) => event.stopPropagation());
 
 
-      btnExport.addEventListener("click", (event) => {
-        event.stopPropagation();
-        toggleExportPanel();
-      });
+      if (btnExport) {
+        btnExport.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleExportPanel();
+        });
+      }
       exportPanel.addEventListener("click", (event) => event.stopPropagation());
       exportPanel.querySelectorAll("[data-range]").forEach((btn) => {
         btn.addEventListener("click", () => setExportRange(btn.dataset.range));
@@ -5161,10 +5157,7 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
         if (event.metaKey || event.ctrlKey || event.altKey || event.repeat) return;
         const target = event.target;
         if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable)) return;
-        if (event.key.toLowerCase() === "e") {
-          event.preventDefault();
-          toggleExportPanel();
-        }
+        // 导出入口已在 App/站点中移除，E 键不再唤起（保留代码备用）
       });
 
       if ("ResizeObserver" in window) new ResizeObserver(resize).observe($("book-space"));
