@@ -1619,11 +1619,13 @@ window.__OA__={"立春":[["律回岁晚冰霜少","春到人间草木知"],["东
 
 
   <style id="print-alias">
-  /* 返回按钮：固定底部居中，保证 WebView/App 内可见可点 */
+  /* 返回按钮：紧贴日历下方居中（不再固定在屏幕底部，避免与日历之间留大片空白） */
   #backToMonth {
     position: fixed !important;
     left: 50% !important;
-    bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    /* --cal-bottom 由 JS 按日历实际底边实时写入，默认值兜底 */
+    top: var(--back-top, calc(50% + 12px)) !important;
+    bottom: auto !important;
     z-index: 99999 !important;
     display: inline-flex !important;
     align-items: center; gap: 6px;
@@ -5224,5 +5226,32 @@ if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
 </script>
 
 <a id="backToMonth" href="./index.html"><b>‹</b> 返回月视图</a>
+<script>
+  // 把「返回月视图」按钮贴到日历卡片正下方，随窗口尺寸变化重算
+  (function () {
+    var btn = document.getElementById("backToMonth");
+    var book = document.getElementById("book");
+    if (!btn || !book) return;
+    var GAP = 14; // 按钮与日历底边的间距
+    function place() {
+      var r = book.getBoundingClientRect();
+      var h = btn.offsetHeight || 43;
+      var vh = window.innerHeight;
+      var top = r.bottom + GAP;
+      // 底部空间不足时贴着视口底，保证始终可点
+      var maxTop = vh - h - 12;
+      if (top > maxTop) top = maxTop;
+      if (top < r.top) top = r.top;
+      btn.style.setProperty("--back-top", Math.round(top) + "px");
+    }
+    place();
+    window.addEventListener("resize", place);
+    window.addEventListener("orientationchange", function () { setTimeout(place, 250); });
+    // 翻页/撕纸后日历尺寸可能变化，用 ResizeObserver 跟随
+    if ("ResizeObserver" in window) new ResizeObserver(place).observe(book);
+    // 动画结束后再校准一次
+    setInterval(place, 800);
+  })();
+</script>
 </body>
 </html>
