@@ -82,8 +82,9 @@ public class MainActivity extends Activity {
                             new String[]{"image/png"}, null);
                 }
 
+                final String finalName = name;
                 runOnUiThread(() -> Toast.makeText(MainActivity.this,
-                        "已保存到相册：老黄历/" + name, Toast.LENGTH_LONG).show());
+                        "已保存到相册：老黄历/" + finalName, Toast.LENGTH_LONG).show());
                 return true;
             } catch (Throwable t) {
                 showToastAsync("保存失败：" + t.getClass().getSimpleName());
