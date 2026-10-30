@@ -1,0 +1,42 @@
+# 静态资源长缓存：文件内容不变就不必重新校验
+# 注意：若日后修改了这些文件内容，需同步改文件名（如 lunar.js -> lunar.v2.js），否则老用户会继续用旧版
+
+/lunar.js
+  Cache-Control: public, max-age=604800
+
+/calendar-art.js
+  Cache-Control: public, max-age=604800
+
+/snapdom.js
+  Cache-Control: public, max-age=604800
+
+/lite-datepicker.js
+  Cache-Control: public, max-age=604800
+
+/remixicon.css
+  Cache-Control: public, max-age=604800
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML 保持短缓存，保证更新能及时生效
+# 注意：站点对外用的是干净路径 /day 与 /（无扩展名），必须给干净路径也配规则，
+# 否则 CF 会对干净路径回落到 max-age=0，导致每次进入都重新下载整页资源。
+# 这里只针对具体路径写规则，不写通配的 /*，避免把静态资源的长缓存覆盖掉。
+/index.html
+  Cache-Control: public, max-age=60, must-revalidate
+
+/day.html
+  Cache-Control: public, max-age=60, must-revalidate
+
+/day
+  Cache-Control: public, max-age=60, must-revalidate
+
+/manifest.json
+  Cache-Control: public, max-age=3600

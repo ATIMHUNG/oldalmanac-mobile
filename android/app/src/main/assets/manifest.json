@@ -1,0 +1,20 @@
+{
+  "name": "老黄历 · 纸上光阴",
+  "short_name": "老黄历",
+  "description": "可撕页的电子老黄历，含农历、节气、宜忌与吉凶",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#33363b",
+  "theme_color": "#1b5e20",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

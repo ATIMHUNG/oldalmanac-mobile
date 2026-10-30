@@ -25,7 +25,7 @@ import android.util.TypedValue;
 
 public class MainActivity extends Activity {
 
-    private static final String HOME_URL = "https://rili.075733.xyz/";
+    private static final String HOME_URL = "file:///android_asset/index.html";
     private WebView webView;
     private ProgressBar progressBar;
     private LinearLayout errorView;
@@ -110,7 +110,9 @@ public class MainActivity extends Activity {
         s.setUseWideViewPort(true);
         s.setSupportZoom(false);
         s.setBuiltInZoomControls(false);
-        s.setAllowFileAccess(false);
+        s.setAllowFileAccess(true);
+        s.setAllowFileAccessFromFileURLs(true);
+        s.setAllowUniversalAccessFromFileURLs(true);
         s.setAllowContentAccess(false);
         s.setMediaPlaybackRequiresUserGesture(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
